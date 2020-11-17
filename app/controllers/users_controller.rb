@@ -1,5 +1,18 @@
 class UsersController < ApplicationController
 
+  def sign_in
+    @user = User.new
+  end
+
+  def login
+    user = User.login(clean_params)
+    if user
+      redirect_to root_path, notice: 'succeed to login'
+    else
+      redirect_to sign_in_users_path, notice: "Please input correct email and password"
+    end
+  end
+
   def sign_up
     @user = User.new
   end
