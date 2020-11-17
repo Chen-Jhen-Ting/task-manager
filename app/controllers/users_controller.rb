@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     if user
       redirect_to root_path, notice: 'succeed to login'
     else
-      redirect_to sign_in_users_path, notice: "Please input correct email and password"
+      render sign_in_users_path, notice: "Please input correct email and password"
     end
   end
 
