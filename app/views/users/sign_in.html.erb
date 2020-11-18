@@ -1,0 +1,20 @@
+<h1>welcome to sign in page</h1>
+<% if @user.errors.any? %>
+  <ul>
+  <% @user.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+  <% end %>
+  </ul>
+<% end %>
+
+<%=  form_for(@user, url: login_users_path) do |f| %>
+  <div>
+    <%= f.label :email %>
+    <%= f.text_field :email %>
+  </div>
+  <div>
+    <%= f.label :password %>
+    <%= f.text_field :password %>
+  </div>
+  <%= f.submit 'login' %>
+<% end %>
