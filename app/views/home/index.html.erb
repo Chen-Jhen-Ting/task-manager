@@ -1,3 +1,7 @@
 <%= link_to 'sign up',sign_up_users_path %>
 <%= link_to 'sign in', sign_in_users_path%>
 <%= link_to 'sign out', sign_out_users_path, method: 'delete'%>
+
+<% if user_signed_in? %>
+  <%= link_to 'edit', edit_users_path(current_user) %>
+<% end %>

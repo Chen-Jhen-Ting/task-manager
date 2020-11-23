@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-
+  before_action :authenticate_user!, only: [:edit, :update]
+  
   def sign_in
     @user = User.new
   end
@@ -22,6 +23,20 @@ class UsersController < ApplicationController
     @user = User.new(clean_params)
     if @user.save
       redirect_to root_path, notice: 'succeed to sign up'
+    else
+      render :sign_up
+    end
+  end
+
+  def edit
+    @user = User.find(current_user.id)
+  end
+
+  def update
+    @user = User.find(current_user.id)
+
+    if @user.update(clean_params)
+      redirect_to root_path, notice: 'succeed to update'
     else
       render :sign_up
     end
