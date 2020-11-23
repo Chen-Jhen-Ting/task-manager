@@ -117,4 +117,23 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe '#login' do
+    before do 
+      @user = User.create(
+        name: '陳振庭',
+        email: 'zxcvzxcvzxcv@gmail.com',
+        password: 'zxcvzxcv'
+      )
+    end
+    it 'with correct email and password' do
+      login_user = User.login(email:'zxcvzxcvzxcv@gmail.com',password:'zxcvzxcv')
+      expect(login_user.name).to eq(@user.name)
+    end
+
+    it 'with wrong email and password' do
+      login_user = User.login(email:'zxcvvzxcv@gmail.com',password:'zxcvzxscv')
+      expect(login_user).to eq(nil)
+    end
+  end
 end
