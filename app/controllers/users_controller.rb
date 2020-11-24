@@ -11,7 +11,7 @@ class UsersController < ApplicationController
       sign_in_user(@user)
       redirect_to root_path, notice: 'succeed to login'
     else
-      render :sign_in
+      redirect_to sign_in_users_path, notice: 'Your email or password is incorrect'
     end
   end
 

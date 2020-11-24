@@ -8,6 +8,7 @@ RSpec.describe UsersController, type: :controller do
       password: 'zxcvzxcv'
     )
   end
+
   let(:params) do
     {
       user: {
@@ -17,15 +18,16 @@ RSpec.describe UsersController, type: :controller do
       }
     }
   end
+
   describe '#sign_in' do
-    subject {get :sign_in}
+    subject { get :sign_in }
     it 'the link should be ok' do
       expect(subject.status).to be 200
     end
   end
   
   describe '#login' do
-    subject {post :login, params: params}
+    subject { post :login, params: params }
     context 'with correct email and password' do
       it 'should find user' do
         user
@@ -42,22 +44,27 @@ RSpec.describe UsersController, type: :controller do
           }
         }
       end
+      
       it 'should not find user' do
-        expect(subject.status).to be 200
+        expect(subject.status).to be 302
+        expect(subject).to redirect_to(sign_in_users_path)
+        expect(assigns[:user]).to be_nil
       end
     end
   end
 
   describe '#sign_up' do
-    subject {get :sign_up}
+    subject { get :sign_up }
     it 'the link should be ok' do
       expect(subject.status).to be 200
     end
   end
 
   describe '#create' do
-    subject {post :create, params: params}
-
+    before do
+      post :create, params: params
+    end
+    
     context 'with appropriate data' do
       it 'user should be created' do
         expect(subject.status).to be 302
@@ -85,9 +92,11 @@ RSpec.describe UsersController, type: :controller do
   
   describe '#edit' do
     context 'after login' do
+      before do
+        session[:user_token] = user.id
+        get :edit 
+      end
       it 'current user should be exist' do
-        post :login, params: params
-        subject { get :edit }
         expect(subject.status).to be 200
       end
     end
@@ -95,26 +104,39 @@ RSpec.describe UsersController, type: :controller do
 
   describe '#update' do
     context 'after login' do
-      it 'user data will change' do
-        post :login, params: params
-        get :edit
-        subject{ patch :update, params: {
+      let(:params) do
+        {
+          id: user.id,
           user: {
-            id: user.id,
             name: '陳振庭',
             email: 'zxcvzxcvzxcv@gmail.com',
             password: 'zxcvzxcv'
           }
-        } }
+        }
+      end
+
+      before do
+        session[:user_token] = user.id
+        patch :update, params: params
+      end
+
+      it 'user data will change' do
         expect(subject.status).to be 302
+        expect(user.reload.name).to eq('陳振庭')
       end
     end
   end
 
   describe '#sign_out' do
-    subject{ delete :sign_out }
+
+    before do
+      session[:user_token] = user.id
+      delete :sign_out 
+    end
+
     it 'user can sign out' do
       expect(subject.status).to be 302
+      expect(session[:user_token]).to be_nil
     end
   end
 end

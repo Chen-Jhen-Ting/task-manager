@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe HomeController, type: :controller do
-  describe '.index' do
-    context '' do
+  describe '#index' do
+    context 'homepage' do
       subject { get :index }
       it 'ok' do
         expect(subject.status).to be 200
