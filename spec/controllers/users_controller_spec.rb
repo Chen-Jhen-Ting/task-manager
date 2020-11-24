@@ -89,5 +89,29 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  
+  describe '#edit' do
+    context 'after login' do
+      let(:user) do 
+        User.create(
+          name: 'tedbear',
+          email: 'zxcvzxcvzxcv@gmail.com',
+          password: 'zxcvzxcv'
+        )
+      end
+      let(:params) do
+        {
+          user: {
+            email: 'zxcvzxcvzxcv@gmail.com',
+            password: 'zxcvzxcv'
+          }
+        }
+      end
+      
+      it 'current user should be exist' do
+        post :login, params: params
+        subject{ get :edit }
+        expect(subject.status).to be 200
+      end
+    end
+  end
 end
