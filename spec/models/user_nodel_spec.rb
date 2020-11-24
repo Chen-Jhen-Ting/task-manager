@@ -3,89 +3,113 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   describe 'validate' do
     context ',with appropriate name, email and password' do
-      it ', it should be ok' do
-        user = User.new(
+      let(:user) do
+        User.new(
           name: '陳振庭',
           email: 'zxcvzxcvzxcv@gmail.com',
           password: 'zxcvzxcv'
         )
+      end
+
+      it ', it should be ok' do
         expect(user).to be_valid
       end
     end
 
     context ',without name' do
-      it ', it should not be ok' do
-        user = User.new(
+      let(:user) do
+        User.new(
           name: '',
           email: 'zxcvzxcvzxcv@gmail.com',
           password: 'zxcvzxcv'
         )
+      end
+
+      it ', it should not be ok' do
         expect(user).not_to be_valid
       end
     end
 
     context ',with short name ( length < 2 )' do
-      it ', it should be ok' do
-        user = User.new(
+      let(:user) do
+        User.new(
           name: 'a',
           email: 'zxcvzxcvzxcv@gmail.com',
           password: 'zxcvzxcv'
         )
+      end
+
+      it ', it should be ok' do
         expect(user).not_to be_valid
       end
     end
 
     context ',with name ( length = 2 )' do
-      it ', it should be ok' do
-        user = User.new(
+      let(:user) do
+        User.new(
           name: 'ab',
           email: 'zxcvzxcvzxcv@gmail.com',
           password: 'zxcvzxcv'
         )
+      end
+
+      it ', it should be ok' do
         expect(user).to be_valid
       end
     end
 
     context ', without email' do
-      it ', should not be ok' do
-        user = User.new(
+      let(:user) do
+        User.new(
           name: '陳振庭',
           email: '',
           password: 'zxcvzxcv'
         )
+      end
+
+      it ', should not be ok' do
         expect(user).not_to be_valid
       end
     end
 
     context ', with incorrect email' do
-      it ', should not be ok' do
-        user = User.new(
+      let(:user) do
+        User.new(
           name: '陳振庭',
           email: 'zcxv',
           password: 'zxcvzxcv'
         )
+      end
+
+      it ', should not be ok' do
         expect(user).not_to be_valid
       end
     end
 
     context ', without password' do
-      it ', should not be ok' do
-        user = User.new(
+      let(:user) do
+        User.new(
           name: '陳振庭',
           email: 'zxcvzxcvzxcv@gmail.com',
           password: ''
         )
+      end
+
+      it ', should not be ok' do
         expect(user).not_to be_valid
       end
     end
 
     context ', with too short password' do
-      it ', should not be ok' do
-        user = User.new(
+      let(:user) do
+        User.new(
           name: '陳振庭',
           email: 'zxcvzxcvzxcv@gmail.com',
           password: 'zxcvz'
         )
+      end
+      
+      it ', should not be ok' do
         expect(user).not_to be_valid
       end
     end
@@ -93,25 +117,31 @@ RSpec.describe User, type: :model do
 
   describe '.create' do
     context ', check whether user can be created' do
-      it ', should be ok' do
-        user = User.create(
+      before do
+        @user = User.create(
           name: '陳振庭',
           email: 'zxcvzxcvzxcv@gmail.com',
           password: 'zxcvzxcv'
         )
-        expect(User.last).to eq(user)
+      end
+
+      it ', should be ok' do
+        expect(User.last).to eq(@user)
       end
     end
   end
 
   describe '#encrypt_password' do
     context ', before action will change password' do
-      it ', password will be encrypted' do
-        user = User.create(
+      let(:user) do
+        User.create(
           name: '陳振庭',
           email: 'zxcvzxcvzxcv@gmail.com',
           password: 'zxcvzxcv'
         )
+      end
+      
+      it ', password will be encrypted' do
         expect(user.password).not_to eq('zxcvzxcv')
         expect(user.password).to eq(Digest::SHA1.hexdigest('zxcvzxcv'))
       end
