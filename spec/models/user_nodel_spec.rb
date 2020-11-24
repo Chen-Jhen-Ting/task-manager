@@ -156,14 +156,25 @@ RSpec.describe User, type: :model do
         password: 'zxcvzxcv'
       )
     end
-    it 'with correct email and password' do
-      login_user = User.login(email:'zxcvzxcvzxcv@gmail.com',password:'zxcvzxcv')
-      expect(login_user.name).to eq(@user.name)
-    end
+    context 'with correct email and password' do
+      let(:login_user) do
+        User.login(email:'zxcvzxcvzxcv@gmail.com',password:'zxcvzxcv')
+      end
 
-    it 'with wrong email and password' do
-      login_user = User.login(email:'zxcvvzxcv@gmail.com',password:'zxcvzxscv')
-      expect(login_user).to eq(nil)
+      it 'we can find user' do
+        expect(login_user.name).to eq(@user.name)
+      end
     end
+    
+    context 'with wrong email and password' do
+      let(:login_user) do
+        User.login(email:'zxcvvzxcv@gmail.com',password:'zxcvzxscv')
+      end
+      
+      it 'we can not find user' do
+        expect(login_user).to eq(nil)
+      end
+    end
+    
   end
 end
