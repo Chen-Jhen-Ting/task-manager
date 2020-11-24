@@ -6,7 +6,7 @@ RSpec.describe User, type: :model do
       it ', it should be ok' do
         user = User.new(
           name: '陳振庭',
-          email: 'zxcv@gmail.com',
+          email: 'zxcvzxcvzxcv@gmail.com',
           password: 'zxcvzxcv'
         )
         expect(user).to be_valid
@@ -17,7 +17,7 @@ RSpec.describe User, type: :model do
       it ', it should not be ok' do
         user = User.new(
           name: '',
-          email: 'zxcv@gmail.com',
+          email: 'zxcvzxcvzxcv@gmail.com',
           password: 'zxcvzxcv'
         )
         expect(user).not_to be_valid
@@ -28,7 +28,7 @@ RSpec.describe User, type: :model do
       it ', it should be ok' do
         user = User.new(
           name: 'a',
-          email: 'zxcv@gmail.com',
+          email: 'zxcvzxcvzxcv@gmail.com',
           password: 'zxcvzxcv'
         )
         expect(user).not_to be_valid
@@ -39,7 +39,7 @@ RSpec.describe User, type: :model do
       it ', it should be ok' do
         user = User.new(
           name: 'ab',
-          email: 'zxcv@gmail.com',
+          email: 'zxcvzxcvzxcv@gmail.com',
           password: 'zxcvzxcv'
         )
         expect(user).to be_valid
@@ -72,7 +72,7 @@ RSpec.describe User, type: :model do
       it ', should not be ok' do
         user = User.new(
           name: '陳振庭',
-          email: 'zxcv@gmail.com',
+          email: 'zxcvzxcvzxcv@gmail.com',
           password: ''
         )
         expect(user).not_to be_valid
@@ -83,7 +83,7 @@ RSpec.describe User, type: :model do
       it ', should not be ok' do
         user = User.new(
           name: '陳振庭',
-          email: 'zxcv@gmail.com',
+          email: 'zxcvzxcvzxcv@gmail.com',
           password: 'zxcvz'
         )
         expect(user).not_to be_valid
@@ -96,7 +96,7 @@ RSpec.describe User, type: :model do
       it ', should be ok' do
         user = User.create(
           name: '陳振庭',
-          email: 'zxcv@gmail.com',
+          email: 'zxcvzxcvzxcv@gmail.com',
           password: 'zxcvzxcv'
         )
         expect(User.last).to eq(user)
@@ -109,12 +109,31 @@ RSpec.describe User, type: :model do
       it ', password will be encrypted' do
         user = User.create(
           name: '陳振庭',
-          email: 'zxcv@gmail.com',
+          email: 'zxcvzxcvzxcv@gmail.com',
           password: 'zxcvzxcv'
         )
         expect(user.password).not_to eq('zxcvzxcv')
         expect(user.password).to eq(Digest::SHA1.hexdigest('zxcvzxcv'))
       end
+    end
+  end
+
+  describe '#login' do
+    before do 
+      @user = User.create(
+        name: '陳振庭',
+        email: 'zxcvzxcvzxcv@gmail.com',
+        password: 'zxcvzxcv'
+      )
+    end
+    it 'with correct email and password' do
+      login_user = User.login(email:'zxcvzxcvzxcv@gmail.com',password:'zxcvzxcv')
+      expect(login_user.name).to eq(@user.name)
+    end
+
+    it 'with wrong email and password' do
+      login_user = User.login(email:'zxcvvzxcv@gmail.com',password:'zxcvzxscv')
+      expect(login_user).to eq(nil)
     end
   end
 end

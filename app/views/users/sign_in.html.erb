@@ -1,4 +1,4 @@
-<h1>welcome to sign in page</h1>
+<h1 class='text-center'>welcome to sign in page</h1>
 <% if @user.errors.any? %>
   <ul>
   <% @user.errors.full_messages.each do |message| %>
@@ -7,14 +7,14 @@
   </ul>
 <% end %>
 
-<%=  form_for(@user, url: login_users_path) do |f| %>
-  <div>
+<%=  form_for @user, html: { class: 'col-6 m-auto text-danger'}, url: login_users_path do |f| %>
+  <div class="form-group">
     <%= f.label :email %>
-    <%= f.text_field :email %>
+    <%= f.text_field :email, class:'form-control' %>
   </div>
-  <div>
+  <div class="form-group">
     <%= f.label :password %>
-    <%= f.text_field :password %>
+    <%= f.text_field :password, class:'form-control' %>
   </div>
-  <%= f.submit 'login' %>
+  <%= f.submit 'login', class: "btn btn-primary" %>
 <% end %>
