@@ -11,7 +11,7 @@ RSpec.describe UsersController, type: :controller do
   let(:params) do
     {
       user: {
-        name: '陳振庭',
+        name: 'tedbear',
         email: 'zxcvzxcvzxcv@gmail.com',
         password: 'zxcvzxcv'
       }
@@ -61,7 +61,7 @@ RSpec.describe UsersController, type: :controller do
     context 'with appropriate data' do
       it 'user should be created' do
         expect(subject.status).to be 302
-        expect(User.last.name).to eq '陳振庭' 
+        expect(User.last.name).to eq 'tedbear' 
       end
     end
 
@@ -87,13 +87,34 @@ RSpec.describe UsersController, type: :controller do
     context 'after login' do
       it 'current user should be exist' do
         post :login, params: params
-        subject{ get :edit }
+        subject { get :edit }
         expect(subject.status).to be 200
       end
     end
   end
 
   describe '#update' do
+    context 'after login' do
+      it 'user data will change' do
+        post :login, params: params
+        get :edit
+        subject{ patch :update, params: {
+          user: {
+            id: user.id,
+            name: '陳振庭',
+            email: 'zxcvzxcvzxcv@gmail.com',
+            password: 'zxcvzxcv'
+          }
+        } }
+        expect(subject.status).to be 302
+      end
+    end
+  end
 
+  describe '#sign_out' do
+    subject{ delete :sign_out }
+    it 'user can sign out' do
+      expect(subject.status).to be 302
+    end
   end
 end
