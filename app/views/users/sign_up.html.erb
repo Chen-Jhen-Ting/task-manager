@@ -1,11 +1,5 @@
 <h1 class='text-center'>welcome to sign up page</h1>
-<% if @user.errors.any? %>
-  <ul>
-  <% @user.errors.full_messages.each do |message| %>
-    <li><%= message %></li>
-  <% end %>
-  </ul>
-<% end %>
+<%= render 'error_message' %>
 
 <%=  form_for @user, :html => { class: 'col-6 m-auto text-danger'} do |f| %>
   <div class="form-group">

@@ -6,12 +6,12 @@ class UsersController < ApplicationController
   end
 
   def login
-    user = User.login(clean_params)
-    if user
-      sign_in_user(user)
+    @user = User.login(clean_params)
+    if @user
+      sign_in_user(@user)
       redirect_to root_path, notice: 'succeed to login'
     else
-      render sign_in_users_path, notice: "Please input correct email and password"
+      render :sign_in
     end
   end
 
