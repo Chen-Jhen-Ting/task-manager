@@ -1,16 +1,16 @@
 <ul class="nav border-bottom border-top border-dark h3">
   <li class="nav-item mx-4">
-    <%= link_to 'sign up',sign_up_users_path %>
+    <%= link_to 'sign up',sign_up_users_path, id:'sign_up_link' %>
   </li>
   <li class="nav-item mx-4">
-    <%= link_to 'sign in', sign_in_users_path%>
+    <%= link_to 'sign in', sign_in_users_path, id:'sign_in_link'%>
   </li>
   <li class="nav-item mx-4">
-    <%= link_to 'sign out', sign_out_users_path, method: 'delete'%>
+    <%= link_to 'sign out', sign_out_users_path, method: 'delete', id:'sign_out_link'%>
   </li>
   <% if user_signed_in? %>
   <li class="nav-item mx-4">
-    <%= link_to 'edit', edit_users_path(current_user) %>
+    <%= link_to 'edit', edit_users_path(current_user), id:'user_edit_link' %>
   </li>
   <li class="nav-item mr-4 ml-auto"><%= current_user.name %></li>
   <% end %>
