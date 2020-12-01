@@ -8,7 +8,6 @@ RSpec.feature 'sign_up', type: :feature, driver: :chrome, js: true, slow: true d
 
       expect(User.count).to eq 1
 
-
       expect(page).to have_content 'sign up'
       expect(page).to have_content 'sign in'
       expect(page).to have_content 'sign out'
