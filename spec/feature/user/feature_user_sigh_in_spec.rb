@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.feature 'sign_up', type: :feature, driver: :chrome, js: true, slow: true do
-  describe 'user sign up' do
+RSpec.feature 'sign_in', type: :feature, driver: :chrome, js: true, slow: true do
+  describe 'user sign in' do
     before do
       @user = User.create(
         name: '陳振庭',
